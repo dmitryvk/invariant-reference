@@ -4,12 +4,18 @@ members = [".", "crates/invariant_reference_derive"]
 [workspace.package]
 version = "0.1.0"
 edition = "2024"
+description = "Helps code authors define and use invariants"
+repository = "https://github.com/dmitryvk/invariant-reference"
+license = "MIT OR Apache-2.0"
 
 [package]
 name = "invariant-reference"
 version.workspace = true
 edition.workspace = true
 dependencies = ["invariant_reference_derive"]
+description.workspace = true
+repository.workspace = true
+license.workspace = true
 
 [dependencies]
 invariant_reference_derive = { path = "crates/invariant_reference_derive", version = "0.1.0" }
