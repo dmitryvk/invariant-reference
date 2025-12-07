@@ -12,6 +12,8 @@ fn main() {
         .next()
         .unwrap_under_invariant::<NameIsNotEmpty>();
     println!("age={age} first_letter={first_letter}");
+
+    // prints: "unwrapping called on None value; violation of invariant: the name is not empty"
     _ = None::<char>.unwrap_under_invariant::<NameIsNotEmpty>();
 }
 
@@ -26,7 +28,7 @@ struct AgeIsPositive;
 impl User {
     fn new(age: i32, name: Name) -> Self {
         assert!(age > 0);
-        invariant_established!(AgeIsPositive);
+        invariant_established!(AgeIsPositive, why = "checked with `assert!`");
         Self { age, name }
     }
 }
@@ -38,15 +40,15 @@ struct NameIsNotEmpty;
 
 impl Name {
     fn default() -> Self {
-        invariant_established!(NameIsNotEmpty[0]);
+        invariant_established!(NameIsNotEmpty[0], why = "hardcoded non-empty value");
         Self("default".into())
     }
 
     fn new(name: String) -> Option<Self> {
         if name.is_empty() {
-            invariant_established!(NameIsNotEmpty[1]);
             return None;
         }
+        invariant_established!(NameIsNotEmpty[1], why = "checked with `name.is_empty()`");
         Some(Self(name))
     }
 }

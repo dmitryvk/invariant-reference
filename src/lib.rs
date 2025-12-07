@@ -12,11 +12,11 @@ pub trait InvariantProof<const N: usize> {}
 
 #[macro_export]
 macro_rules! invariant_established {
-    ($name:path [$n:literal]) => {
+    ($name:path [$n:literal], why = $lit:literal) => {
         #[allow(non_local_definitions)]
         impl $crate::InvariantProof<$n> for $name {}
     };
-    ($name:path) => {
+    ($name:path, why = $lit:literal) => {
         #[allow(non_local_definitions)]
         impl $crate::InvariantProof<0> for $name {}
     };

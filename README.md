@@ -41,13 +41,14 @@ fn main() {
 struct MakeItemsReturnsNonEmpty;
 
 fn make_items() -> Vec<i32> {
-    invariant_established!(MakeItemsReturnsNonEmpty);
+    invariant_established!(MakeItemsReturnsNonEmpty, why = "vec with 3 items is non-empty");
     vec![1, 2, 3]
 }
 ```
 
 This style of code has several advantages:
 - the invariants are explicitly defined in code
+- the developer is force to provide some explanation of what the invariant means and why it is upheld
 - the `invariant_established!` is placed close to the code that ensures that the invariant holds;
   during code review it is easier to spot mistakes in such code
 - we can use "Find All References" function to find all places that depend on an invariant
@@ -64,9 +65,9 @@ This style of code has several advantages:
    - provide the `message` that explains the essence of the invariant, i.e. what condition must hold true
    - optionally, if an invariant is established in multiple places (e.g., a struct has multiple constructors),
      specify the number of such code paths in the `num_proofs` attribute.
-3. Invoke the `invariant_established!(XyzVecIsNotEmpty)` macro in the specific code place where it makes sense
+3. Invoke the `invariant_established!(XyzVecIsNotEmpty, why = "...")` macro in the specific code place where it makes sense
    (e.g., in the body of a struct constructor)
-   - use `invariant_established!(XyzVecIsNotEmpty[0])` macro if there are multiple such places
+   - use `invariant_established!(XyzVecIsNotEmpty[0], why = "...")` macro if there are multiple such places
 4. Invoke `OptionExt::unwrap_under_invariant::<XyzVecIsNotEmpty>()` or `ResultExt::unwrap_under_invariant::<XyzVecIsNotEmpty>()` instead of `.expect()`
 
 # Notes and limitations
