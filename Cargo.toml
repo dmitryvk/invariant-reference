@@ -1,11 +1,15 @@
 [workspace]
 members = [".", "crates/invariant_reference_derive"]
 
-[package]
-name = "invariant-reference"
+[workspace.package]
 version = "0.1.0"
 edition = "2024"
+
+[package]
+name = "invariant-reference"
+version.workspace = true
+edition.workspace = true
 dependencies = ["invariant_reference_derive"]
 
 [dependencies]
-invariant_reference_derive = { path = "crates/invariant_reference_derive" }
+invariant_reference_derive = { path = "crates/invariant_reference_derive", version = "0.1.0" }
